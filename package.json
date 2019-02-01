@@ -1,0 +1,25 @@
+{
+  "name": "eai-address-book",
+  "version": "1.0.0",
+  "description": "An implementation of an address book. Uses RESTful API with an Elasticsearch data store.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahoner12/eai-address-book.git"
+  },
+  "author": "Alexander Honer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahoner12/eai-address-book/issues"
+  },
+  "homepage": "https://github.com/ahoner12/eai-address-book#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "elasticsearch": "^15.3.1",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11"
+  }
+}
