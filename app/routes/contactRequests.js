@@ -2,13 +2,13 @@ const Contact = require('../models/contact');
 const contactController = require('../controllers/contactController');
 
 // Called by GET /contact?pageSize={}&page={}&query={}
-exports.contact_list = function(req, res) {
+exports.contact_list = async function(req, res) {
     console.log('Listing Contacts')
     let pageSize = req.query.pageSize;
     let page = req.query.page;
     let query = req.query.query;
-    handleList(pageSize, page, query);
-    res.status(200).send(req.body)
+    let resp = await contactController.handleList('addressbook', pageSize, page, query);
+    res.status(resp.status).send(resp.resp);
 };
 
 // Called by POST /contact

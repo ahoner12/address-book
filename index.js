@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+const config = require('./config.json');
 
 const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: config.host + ":" + config.port
 });
 
 client.indices.create({
