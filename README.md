@@ -11,6 +11,7 @@ properly
 * Store data in Elasticsearch
 * Unit Test
 <br>
+
 ## 17:07 - 18:01
 * Parse Querey for<br>
 ```GET /contact?pageSize={}&page={}&query={}```<br>
@@ -19,6 +20,7 @@ done
 ### TODO
 * Store data in Elasticsearch
 * Unit Test
+
 # 02/02/19
 ## 13:08 - 20:12
 * Everything except running<br>
