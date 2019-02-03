@@ -1,36 +1,92 @@
 const Contact = require('../models/contact');
+const elasticsearch = require('elasticsearch');
+const client = new elasticsearch.Client({
+    host: 'localhost:9200',
+});
 
-// Called by GET /contact?pageSize={}&page={}&query={}
-exports.contact_list = function(req, res) {
-    console.log('Listing Contacts')
-    console.log(req.body);
-    res.status(200).send(req.body)
-};
+exports.handleList = function(index, pageSize, page, query) {
 
-// Called by POST /contact
-exports.contact_create = function(req, res) {
-    console.log('Creating new Contact')
-    console.log(req.body);
-    res.status(200).send(req.body)
 }
 
-// Called by GET /contact/{name}
-exports.contact_detail = function(req, res) {
-    console.log('Retrieving specified Contact');
-    console.log(req.body);
-    res.status(200).send(req.body)
+exports.handleCreate = async function (index, contact) {
+    try {
+        const resp = await client.create({
+            index: index,
+            type: 'contact',
+            id: contact.get('name'),
+            body: {
+                name: contact.get('name'),
+                phoneNumber: contact.get('phoneNumber'),
+                email: contact.get('email'),
+                address: contact.get('address'),
+            }
+        });
+        return {resp: resp, status: 200}
+    } catch (err) {
+        resp = {resp: 'Contact already exists', status: err.status}
+        return resp;
+    }
 }
 
-// Called by PUT /contact/{name}
-exports.contact_update = function(req, res) {
-    console.log('Updating specified Contact');
-    console.log(req.body);
-    res.status(200).send(req.body)
+exports.handleDetail = async function(index, name) {
+    try {
+        const resp = await client.search({
+            index: index,
+            type: 'contact',
+            q: 'name:' + name
+        });
+        if (resp.hits.hits[0]) {
+            const result = resp.hits.hits[0]._source
+            return { resp: result, status: 200 }
+        } else {
+            return {resp: 'Contact does not exist', status: 404}
+        }
+    } catch(err) {
+        return { resp: err, status: err.status };
+    }
 }
 
-// Called by DELETE /contact/{name}
-exports.contat_delete = function(req, res) {
-    console.log('Deleting specified Contact');
-    console.log(req.body);
-    res.status(200).send(req.body)
+exports.handleUpdate = async function(index, name, contact) {
+    try {
+        let doc = {};
+        if (contact.get('phoneNumber')) {
+            doc.phoneNumber = contact.get('phoneNumber');
+        }
+        if (contact.get('email')) {
+            doc.email = contact.get('email');
+        }
+        if (contact.get('address')) {
+            doc.phoneNumber = contact.get('address');
+        }
+        const resp = await client.update({
+            index: index,
+            type: 'contact',
+            id: name,
+            body: {
+                doc
+            }
+        });
+        return {resp: resp, status: 200}
+    } catch (err) {
+        resp = {resp: err, status: 404}
+        return resp;
+    }
+}
+
+exports.handleDelete = async function(index, name) {
+    try {
+        const resp = await client.delete({
+            index: index,
+            type: 'contact',
+            id: name
+        });
+        if (resp.result === 'deleted') {
+            return { resp: resp, status: 200 }
+        } else {
+            return {resp: 'Contact does not exist', status: 404}
+        }
+    } catch (err) {
+        resp = {resp: err, status: 404}
+        return resp;
+    }
 }

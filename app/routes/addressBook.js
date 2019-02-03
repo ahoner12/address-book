@@ -8,22 +8,22 @@ router.use(bodyParser.urlencoded({
 }));
 
 // Initialize Controllers
-const contactController = require('../controllers/contactController');
+const contactRequests = require('./contactRequests');
 
 // Contact Routes
 // GET /contact?pageSize={}&page={}&query={}
-router.get('/contact', contactController.contact_list);
+router.get('/contact', contactRequests.contact_list);
 
 // POST /contoct
-router.post('/contact', contactController.contact_create);
+router.post('/contact', contactRequests.contact_create);
 
 // GET /contact/{name}
-router.get('/users/:id', contactController.contact_detail);
+router.get('/contact/:id', contactRequests.contact_detail);
 
 // PUT /contact/{name}
-router.put('/contact/:id', contactController.contact_update);
+router.put('/contact/:id', contactRequests.contact_update);
 
 // DELETE /contact/{name}
-router.delete('/contact/:id', contactController.contat_delete);
+router.delete('/contact/:id', contactRequests.contact_delete);
 
 module.exports = router;

@@ -4,7 +4,7 @@
   "description": "An implementation of an address book. Uses RESTful API with an Elasticsearch data store.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/ahoner12/eai-address-book#readme",
   "dependencies": {
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "elasticsearch": "^15.3.1",
     "express": "^4.16.4",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0"
   }
 }
